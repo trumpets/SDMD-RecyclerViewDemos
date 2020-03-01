@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Recycler View Demos</string>
+    <string name="remove_random_item">Remove Random Item</string>
 </resources>

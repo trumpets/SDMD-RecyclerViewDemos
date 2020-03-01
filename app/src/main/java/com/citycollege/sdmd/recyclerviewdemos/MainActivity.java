@@ -2,6 +2,7 @@ package com.citycollege.sdmd.recyclerviewdemos;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +25,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final List<Item> items = generateSetOfItems(NUMBER_OF_ITEMS_TO_GENERATE);
+
         RecyclerView recyclerView = findViewById((R.id.rv_items));
-        recyclerView.setAdapter(new ItemAdapter(this, generateSetOfItems(NUMBER_OF_ITEMS_TO_GENERATE)));
+        final ItemAdapter adapter = new ItemAdapter(this, items);
+        recyclerView.setAdapter(adapter);
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        findViewById(R.id.btn_remove_random).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (items.size() > 0) {
+                    int indexOfItemToRemove = rng.nextInt(items.size());
+                    items.remove(indexOfItemToRemove);
+                    adapter.notifyItemRemoved(indexOfItemToRemove);
+                }
+            }
+        });
     }
 
     private List<Item> generateSetOfItems(int itemsToGenerate) {
